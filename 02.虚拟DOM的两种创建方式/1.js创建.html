@@ -9,21 +9,17 @@
   <script type="text/javascript" src="../js/react.development.js"></script>
   <!-- 引入react-dom 用于支持react操作DOM -->
   <script type="text/javascript" src="../js/react-dom.development.js"></script>
-
-  <script type="text/javascript" src="../js/babel.min.js"></script>
 </head>
 
 <body>
   <div id="test"></div>
 
-  <script type="text/babel">
+  <script type="text/javascript">
     // 1.创建一个虚拟DOM
-    let VDOM = <h1>Hello, React！</h1>
+    let VDOM = React.createElement('h1', { id: 'atguigu' }, 'Hello,React')
     // 2.让React将虚拟DOM——VDOM转为真是DOM，渲染到页面
     ReactDOM.render(VDOM, document.getElementById('test'))
   </script>
-
-
 </body>
 
 </html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Document</title>
+ <script type="text/javascript" src="../js/react.development.js"></script>
+ <!-- 引入react-dom 用于支持react操作DOM -->
+ <script type="text/javascript" src="../js/react-dom.development.js"></script>
+ <!-- jsx转js -->
+ <script type="text/javascript" src="../js/babel.min.js"></script>
+ <script type="text/javascript" src="../js/prop-types.js"></script>
+</head>
+<!--
+  父子组件初始化生命周期执行顺序
+   A --- componentWillMount
+   A --- render
+   B --- componentWillMount
+   B --- render
+   B --- componentDidMount
+   A --- componentDidMount
+
+
+  父子组件更新state生命周期执行顺序
+  A --- shouldcomponentWillUpdate
+  A --- componentWillUpdate
+  A --- render
+  B --- componentWillReceiveProps
+  B --- shouldcomponentWillUpdate
+  B --- componentWillUpdate
+  B --- render
+  B --- componentDidUpdate
+  A --- componentDidUpdate
+ -->
+<body>
+ <div id="test"></div>
+</body>
+<script type="text/babel">
+ class A extends React.Component {
+  state = {
+   carName: 1
+  }
+  componentWillMount() {
+   console.log('A----componentWillMount')
+  }
+
+  render() { // 执行 1 + n 次; n state状态改变的次数
+   console.log('A----render')
+   const { carName } = this.state
+   return (
+    <div>
+     <h1>{carName}</h1>
+     <button onClick={this.changeCar}>不活了</button>
+     <B carName = {carName}/>
+    </div>
+   )
+  }
+
+  // render后,只调用一次
+  componentDidMount() {
+   console.log('A----componentDidMount')
+  }
+
+  shouldComponentUpdate(){
+   console.log('A----shouldComponentUpdate')
+   return true
+  }
+
+  componentWillUpdate(){
+   console.log('A----componentWillUpdate')
+  }
+
+  componentDidUpdate(){
+   console.log('A----componentDidUpdate')
+  }
+
+  componentWillUnmount() {
+   console.log('A----componentWillUnmount')
+  }
+
+  changeCar = () => {
+   const { carName } = this.state
+   this.setState({carName: '2'})
+  }
+ }
+
+ class B extends React.Component {
+  componentWillMount() {
+   console.log('B----componentWillMount')
+  }
+
+  render(){
+   console.log('B----render')
+   const {carName} = this.props
+   return <h3>{carName}</h3>
+  }
+
+  componentDidMount() {
+   console.log('B----componentDidMount')
+  }
+
+  componentWillReceiveProps(){
+   console.log('B----componentWillReceiveProps')
+  }
+
+  shouldComponentUpdate(){
+   console.log('B----shouldComponentUpdate')
+   return true
+  }
+
+  componentWillUpdate(){
+   console.log('B----componentWillUpdate')
+  }
+
+  componentDidUpdate(){
+   console.log('B----componentDidUpdate')
+  }
+
+  componentWillUnmount() {
+   console.log('B----componentWillUnmount')
+  }
+ }
+
+
+ ReactDOM.render(<A />, document.getElementById('test'))
+</script>
+
+</html>

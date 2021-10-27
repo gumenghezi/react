@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="debounce" name="debounce">
+
+</body>
+<script>
+  window.onload = function () {
+
+    //模拟ajax请求
+
+    function ajax() {
+
+      console.log('ajax request ')
+
+    }
+
+    function debounce(fun, delay) {
+      let time
+
+      return function (args) {
+
+        //获取函数的作用域和变量
+
+        let that = this
+
+        let _args = args
+
+        //每次事件被触发，都会清除当前的timeer，然后重写设置超时调用
+        console.log(time)
+        clearTimeout(time)
+
+
+        time = setTimeout(function () {
+          console.log(111)
+
+          fun.call(that, _args)
+
+        }, delay)
+
+      }
+
+    }
+
+    let inputDebounce = document.getElementById('debounce')
+
+    let debounceAjax = debounce(ajax, 500)
+
+    inputDebounce.addEventListener('keyup', function (e) {
+
+      debounceAjax()
+
+    })
+
+  }
+
+
+</script>
+
+</html>

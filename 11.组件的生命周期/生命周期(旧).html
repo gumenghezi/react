@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Document</title>
+ <script type="text/javascript" src="../js/react.development.js"></script>
+ <!-- 引入react-dom 用于支持react操作DOM -->
+ <script type="text/javascript" src="../js/react-dom.development.js"></script>
+ <!-- jsx转js -->
+ <script type="text/javascript" src="../js/babel.min.js"></script>
+ <script type="text/javascript" src="../js/prop-types.js"></script>
+</head>
+
+<body>
+ <div id="test"></div>
+</body>
+<script type="text/babel">
+ class Demo extends React.Component {
+  state = {
+   count: 0
+  }
+
+  componentWillMount() {
+   console.log('componentWillMount')
+  }
+
+  render() {
+   console.log('render')
+   const { count } = this.state
+   return (
+    <div>
+     <h1>当前求和: {count}</h1>
+     <button onClick={this.add}>点我</button>
+     <button onClick={this.death}>点我</button>
+     <button onClick={this.upateForce}>点我</button>
+    </div>
+   )
+  }
+
+  componentDidMount() {
+   console.log('componentDidMount')
+  }
+
+  componentWillUnmount() {
+   console.log('componentWillUnmount')
+  }
+
+  shouldComponentUpdate(){
+   console.log('shouldComponentUpdate')
+   return true
+  }
+
+  componentWillUpdate(){
+   console.log('componentWillUpdate')
+  }
+
+  componentDidUpdate(){
+   console.log('componentDidUpdate')
+  }
+
+  add = () => {
+   let { count } = this.state;
+   count++
+   this.setState({count})
+  }
+
+  death = () => {
+   ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+  }
+
+  upateForce = () => {
+   console.log('upateForce')
+   this.forceUpdate()
+  }
+
+  
+ }
+ ReactDOM.render(<Demo />, document.getElementById('test'))
+</script>
+
+</html>

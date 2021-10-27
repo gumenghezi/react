@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width='device-width', initial-scale=1.0">
+ <title>Document</title>
+ <script type="text/javascript" src="../js/18.0.0/react.development.js"></script>
+ <!-- 引入react-dom 用于支持react操作DOM -->
+ <script type="text/javascript" src="../js/18.0.0/react-dom.development.js"></script>
+ <!-- jsx转js -->
+ <script type="text/javascript" src="../js/18.0.0/babel.min.js"></script>
+ <script type="text/javascript" src="../js/18.0.0/prop-types.js"></script>
+</head>
+
+<body>
+ <div id="test"></div>
+</body>
+<!-- 
+ 经典面试题:
+ 1. react/vue中的key有什么作用? （key的内部原理是什么?)
+ 2. 为什么遍历列表时,key最好不要用index?
+
+ 1. 虚拟DOM中key的作用:
+    1).简单的说： key是虚拟DOM对象的标识，在更新显示时key起着极其重要的作用
+
+    2).详细的说: 当状态中的数据发生变化时,react会根据【新数据】生成【新的虚拟DOM】,
+                React进行【新虚拟DOM】与【旧虚拟DOM】的diff比较,比较规则如下:
+
+                a. 旧虚拟DOM中找到了与新虚拟DOM相同的key
+                   (1). 若虚拟DOM中的内容没有变,直接使用之前的真实DOM
+                   (2). 若虚拟DOM中的内容变了, 则生成新的真实DOM, 随后替换调页面中之前的真实DOM
+                
+                b. 旧虚拟DOM中未找到与新虚拟DOM中相同的key
+                   根据数据创建新的真实DOM,随后渲染到页面
+ 
+
+ 2. 虚拟DOM中用index作key可能引发的问题：
+    1)
+ -->
+<script type="text/babel">
+ class Person extends React.Component {
+  state = {
+   persons: [
+    { id: 1, name: '1', age: '1' },
+    { id: 2, name: '2', age: '2' },
+   ]
+  }
+  render() {
+   return (
+    <div>
+     <button onClick={this.add}>添加</button>
+     <h4>index作为索引</h4>
+     <ul>
+
+
+     </ul>
+
+     <h4>id作为索引</h4>
+     <ul>
+      {
+       this.state.persons.map((p, index) => {
+        return (
+         <li key={p.id}>{p.name}---{p.age}<input type="text" /></li>
+        )
+       })
+      }
+     </ul>
+    </div>
+   )
+  }
+
+  add = () => {
+   const { persons } = this.state;
+   const person = { id: 3, name: 3, age: 3 }
+   this.setState({ persons: [person, ...persons] })
+  }
+ }
+
+ ReactDOM.render(<Person />, document.getElementById('test'))
+</script>
+
+</html>
